@@ -1,6 +1,4 @@
-var express = require("express");
-var path = require("path");
-var app = express();
+
 
 function htmlRoutes(app, path, express){
 
@@ -8,5 +6,8 @@ function htmlRoutes(app, path, express){
     res.sendFile(path.join(__dirname, "../public/index.html"))
   });
 
-  
+  app.use("/", express.static("public"));
+
 }
+
+module.exports = htmlRoutes;
