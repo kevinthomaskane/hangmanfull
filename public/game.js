@@ -3,6 +3,7 @@ var wordBank = ["hello", "bed", "blanket", "computer", "mouse", "bike", "elephan
 var compChoice;
 var guesses;
 var userGuess;
+var spaces = [];
 
 compChoose();
 
@@ -16,26 +17,57 @@ function compChoose() {
 
 function writeSpaces() {
   for (let i = 0; i < compChoice.length; i++) {
-    console.log("hello")
-    $("#spaces").append("_ ");
+    spaces.push("_")
+    $("#spaces").append(spaces[i] + " ");
+  }
+}
+
+function printCorrect() {
+  $("#spaces").empty();
+  for (let i = 0; i < spaces.length; i++) {
+    $("#spaces").append(spaces[i] + " ")
   }
 }
 
 $(document).keypress(function (event) {
   userGuess = String.fromCharCode(event.which);
+  console.log(userGuess)
   checkCorrect();
 });
 
-function checkCorrect(){
-  for (let i = 0; i < compChoice.length; i++){
-    if (userGuess === compChoice[i]){
-      $("#spaces").append(compChoice[i]);
+function checkCorrect() {
+  for (let i = 0; i < compChoice.length; i++) {
+    if (userGuess === compChoice[i]) {
+      spaces[i] = userGuess;
+      printCorrect();
+      checkWin();
     } else {
-      $("#spaces").append("_ ");
+      guesses--
+      checkLoss();
     }
   }
 }
 
-function checkWin(){
-  
+function checkWin() {
+  if (compChoice === spaces.join("")) {
+    alert("you win")
+    setTimeout(reset, 3000);
+  }
+}
+
+function checkLoss() {
+  if (guesses === 0) {
+    alert("you lose");
+    setTimeout(reset, 3000);
+  }
+}
+
+function reset() {
+  $("#spaces").empty();
+  spaces = [];
+  compChoice;
+  guesses;
+  userGuess;
+  spaces = [];
+  compChoose();
 }
