@@ -12,6 +12,7 @@ function compChoose() {
   compChoice = wordBank[i];
   console.log(compChoice)
   guesses = compChoice.length;
+  $("#guesses").text(guesses)
   writeSpaces();
 }
 
@@ -36,15 +37,20 @@ $(document).keypress(function (event) {
 });
 
 function checkCorrect() {
+  var correct;
   for (let i = 0; i < compChoice.length; i++) {
     if (userGuess === compChoice[i]) {
       spaces[i] = userGuess;
       printCorrect();
       checkWin();
-    } else {
-      guesses--
-      checkLoss();
-    }
+      correct = true;
+    }  
+  }
+  if (correct === undefined){
+    console.log("in if")
+    guesses--
+    $("#guesses").text(guesses)
+    checkLoss();
   }
 }
 
